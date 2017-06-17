@@ -2,7 +2,7 @@
 
 #DEFINE LED_1	PORTA, 1
 #DEFINE LED_2	PORTB, 2
-#DEFINE SOM		PORTB, 1	; Define headphones
+#DEFINE SOM	PORTB, 1	; Define headphones
 
 ;	DO		-	262Hz
 ;	DO#		-	277Hz
