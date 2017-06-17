@@ -17,19 +17,19 @@
 ;	LA#		-	466Hz
 ;	SI		-	494Hz
 
-		ORG	000H
+	ORG	000H
 		
-N_DO		EQU	
-N_DO_		EQU	
-N_RE		EQU	
-N_RE_		EQU	
-N_MI		EQU	
-N_FA		EQU	
-N_FA_		EQU	
-N_SOL		EQU	
-N_SOL_		EQU	
-N_LA		EQU	
-N_LA_		EQU	
-N_SI		EQU	
+N_DO	EQU	
+N_DO_	EQU	
+N_RE	EQU	
+N_RE_	EQU	
+N_MI	EQU	
+N_FA	EQU	
+N_FA_	EQU	
+N_SOL	EQU	
+N_SOL_	EQU	
+N_LA	EQU	
+N_LA_	EQU	
+N_SI	EQU	
 		
-		END
+	END
