@@ -4,17 +4,17 @@
 ;	PROJETO    MUSICA COM PIC
 
 ;   INICIO : 22/08/13 TERM.:30/08/13
-;	AUTOR:  CL¡UDIO L¡RIOS
+;	AUTOR:  CL√ÅUDIO L√ÅRIOS
 ;	PROCESSADOR:  PIC   16F628A		
 ;	OBJETIVO: GERAR NOTAS MUSICAIS E SEQUENCIAS MUSICAIS EM UMA SAIDA DO PIC
-;   USO PR¡TICO: SONORIZAR PEQUENOS BRINQUEDOS, CAMPAINHAS MUSICAIS, SINALIZADORES DE INTRUS√O, PEQUENOS ORG√OS 
+;   USO PR√ÅTICO: SONORIZAR PEQUENOS BRINQUEDOS, CAMPAINHAS MUSICAIS, SINALIZADORES DE INTRUS√ÉO, PEQUENOS ORG√ÉOS 
 ;==============================================================================================================
-;ARQUIVOS PARA COMPILA«√O
+;ARQUIVOS PARA COMPILA√á√ÉO
 	LIST P=16f628a , R=DEC
     INCLUDE "P16F628a.INC" ;ARQUIVO PADRAO	
   	ERRORLEVEL      -302   ;ELIMINA MENSAGEM DE ERRO
 ;==============================================================================================================  
-;PALAVRA DE CONFIGURA«√O
+;PALAVRA DE CONFIGURA√á√ÉO
   __CONFIG		_CP_OFF & _PWRTE_ON & _WDT_OFF & _INTRC_OSC_NOCLKOUT & _BODEN_ON  & _MCLRE_ON & _LVP_OFF 
 ;===============================================================================================================	    
 ;TROCA DE BANCOS
@@ -150,7 +150,7 @@ SAI_INT
 
 		
 ;=================================================================================================
-; INICIALIZA«√O DE REGISTRADORES E PORTAS
+; INICIALIZA√á√ÉO DE REGISTRADORES E PORTAS
 ;=================================================================================================
 INICIO
 			BANK1	       			;BANCO  1
@@ -161,13 +161,13 @@ INICIO
 
 			MOVLW       B'10000100' ; TMR0/16
             MOVWF      	OPTION_REG	;
-		    BSF         PIE1,0      ;LIGA INTERRUP«√O DO TIMER1
+		    BSF         PIE1,0      ;LIGA INTERRUP√á√ÉO DO TIMER1
 			BANK0
 			MOVLW		.7          ;CONFIGURA PARA UM COMPARADOR APENAS
 			MOVWF		CMCON
 		    MOVLW       0X01        ;PRESCALLER /1 NO TMR1
             MOVWF       T1CON       ;LIGA TIMER 1
-   	        MOVLW		B'01100000' ;LIGA INTERRUP«√O PERIF…RICOS E TMR0
+   	        MOVLW		B'01100000' ;LIGA INTERRUP√á√ÉO PERIF√âRICOS E TMR0
 	        MOVWF		INTCON		;DESLIGA TODAS INTERRUPCOES
 			CLRF		PORTA		;LIMPA PORTA
             CLRF        PORTB		;LIMPA PORTB
@@ -182,12 +182,12 @@ MAIN
 	MOVLW     .4
     CALL     DELAY_G
 
-	CALL      SUPER_MARIO_BROS_THEME    ;SUPER MARIO BROS (BREVE INTRODU«√O)
+	CALL      SUPER_MARIO_BROS_THEME    ;SUPER MARIO BROS (BREVE INTRODU√á√ÉO)
 
   	MOVLW     .4
     CALL     DELAY_G
 
- 	CALL      SWEET_CHILD_O_MINE	    ;EXECUTA (INICIO DA M⁄SICA APENAS)
+ 	CALL      SWEET_CHILD_O_MINE	    ;EXECUTA (INICIO DA M√öSICA APENAS)
 
     MOVLW     .4
    CALL     DELAY_G
@@ -389,7 +389,7 @@ SWEET_CHILD_O_MINE
     MOVLW     .30		;PAUSA
     CALL      DELAY_W
 
-   	MOVLW     .30		;ESTROFE FINAL DA INTRODU«√O
+   	MOVLW     .30		;ESTROFE FINAL DA INTRODU√á√ÉO
     CALL      N_E1 
 	MOVLW     .30
     CALL      N_A1
@@ -496,10 +496,10 @@ TOUREADA
 
 
 ;=================================================================================================
-;                    ROTINAS PARA GERA«√O DE NOTAS MUSICAIS
+;                    ROTINAS PARA GERA√á√ÉO DE NOTAS MUSICAIS
 ;=================================================================================================
 
-N_C  ;D”
+N_C  ;D√ì
 
 	MOVWF   TEMPO
     MOVLW   C_H
@@ -508,7 +508,7 @@ N_C  ;D”
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_C1 ;D” OITAVADO
+N_C1 ;D√ì OITAVADO
 
 	MOVWF   TEMPO
     MOVLW   C1_H
@@ -519,7 +519,7 @@ N_C1 ;D” OITAVADO
 
 
 
-N_DB ;R… BEMOL
+N_DB ;R√â BEMOL
 	MOVWF   TEMPO
     MOVLW   DB_H
     MOVWF   TMRH_AUX
@@ -527,7 +527,7 @@ N_DB ;R… BEMOL
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_DB1  ;R… BEMOL OITAVADO
+N_DB1  ;R√â BEMOL OITAVADO
 	MOVWF   TEMPO
     MOVLW   DB1_H
     MOVWF   TMRH_AUX
@@ -536,7 +536,7 @@ N_DB1  ;R… BEMOL OITAVADO
     GOTO    INIT_MUS
 
  
-N_D ;R…
+N_D ;R√â
 	MOVWF   TEMPO
     MOVLW   D_H
     MOVWF   TMRH_AUX
@@ -544,7 +544,7 @@ N_D ;R…
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_D1 ;R…   OITAVADO
+N_D1 ;R√â   OITAVADO
 	MOVWF   TEMPO
     MOVLW   D1_H
     MOVWF   TMRH_AUX
@@ -552,7 +552,7 @@ N_D1 ;R…   OITAVADO
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_EB ;MÕ  BEMOL
+N_EB ;M√ç  BEMOL
 	MOVWF   TEMPO
     MOVLW   EB_H
     MOVWF   TMRH_AUX
@@ -560,7 +560,7 @@ N_EB ;MÕ  BEMOL
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_EB1  ;MÕ BEMOL OITAVADO
+N_EB1  ;M√ç BEMOL OITAVADO
 	MOVWF   TEMPO
     MOVLW   EB1_H
     MOVWF   TMRH_AUX
@@ -568,7 +568,7 @@ N_EB1  ;MÕ BEMOL OITAVADO
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_E   ;MÕ
+N_E   ;M√ç
 	MOVWF   TEMPO
     MOVLW   E_H
     MOVWF   TMRH_AUX
@@ -576,7 +576,7 @@ N_E   ;MÕ
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_E1  ;MÕ OITAVADO
+N_E1  ;M√ç OITAVADO
 	MOVWF   TEMPO
     MOVLW   E1_H
     MOVWF   TMRH_AUX
@@ -584,7 +584,7 @@ N_E1  ;MÕ OITAVADO
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_F  ;F¡
+N_F  ;F√Å
 	MOVWF   TEMPO
     MOVLW   F_H
     MOVWF   TMRH_AUX
@@ -592,7 +592,7 @@ N_F  ;F¡
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_F1  ;F¡ OITAVADO
+N_F1  ;F√Å OITAVADO
 	MOVWF   TEMPO
     MOVLW   F1_H
     MOVWF   TMRH_AUX
@@ -632,7 +632,7 @@ N_G1  ;SOL OITAVADO
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_AB  ; L¡ BEMOL
+N_AB  ; L√Å BEMOL
 	MOVWF   TEMPO
     MOVLW   AB_H
     MOVWF   TMRH_AUX
@@ -640,7 +640,7 @@ N_AB  ; L¡ BEMOL
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_AB1  ;L¡ BEMOL OITAVADO
+N_AB1  ;L√Å BEMOL OITAVADO
 	MOVWF   TEMPO
     MOVLW   AB1_H
     MOVWF   TMRH_AUX
@@ -648,7 +648,7 @@ N_AB1  ;L¡ BEMOL OITAVADO
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_A    ; L¡
+N_A    ; L√Å
 	MOVWF   TEMPO
     MOVLW   A_H
     MOVWF   TMRH_AUX
@@ -656,7 +656,7 @@ N_A    ; L¡
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_A1   ;L¡ OITAVADO
+N_A1   ;L√Å OITAVADO
 	MOVWF   TEMPO
     MOVLW   A1_H
     MOVWF   TMRH_AUX
@@ -664,7 +664,7 @@ N_A1   ;L¡ OITAVADO
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_BB   ; SÕ BEMOL
+N_BB   ; S√ç BEMOL
 	MOVWF   TEMPO
     MOVLW   BB_H
     MOVWF   TMRH_AUX
@@ -672,7 +672,7 @@ N_BB   ; SÕ BEMOL
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_BB1  ;SÕ BEMOL OITAVADO
+N_BB1  ;S√ç BEMOL OITAVADO
 	MOVWF   TEMPO
     MOVLW   BB1_H
     MOVWF   TMRH_AUX
@@ -681,7 +681,7 @@ N_BB1  ;SÕ BEMOL OITAVADO
     GOTO    INIT_MUS
 
   
-N_B  ;SÕ
+N_B  ;S√ç
 	MOVWF   TEMPO
     MOVLW   B_H
     MOVWF   TMRH_AUX
@@ -689,7 +689,7 @@ N_B  ;SÕ
     MOVWF   TMRL_AUX
     GOTO    INIT_MUS
 
-N_B1 ;SÕ OITAVADO
+N_B1 ;S√ç OITAVADO
 	MOVWF   TEMPO
     MOVLW   B1_H
     MOVWF   TMRH_AUX
