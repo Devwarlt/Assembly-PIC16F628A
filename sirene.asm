@@ -1,10 +1,23 @@
 #INCLUDE <P16F628A.INC>
 
-SIRENE:
+F1      EQU     .99
+F2      EQU     .199
+
+;--INTERRUPÇÃO 
+;SOM:
+;    MOVLW   FREQ
+;    MOVWF   TMR0
+;    XOR     ???
+;    RETFIE
+;--
+
     BSF     INTCON,T0IE
+SIRENE:
+    ;LED1 ATIVADO / LED2 DESATIVADO
     MOVLW   F1
     MOVWF   FREQ
     CALL    DELAY
+    ;LED1 DESATIVADO / LED2 ATIVADO
     MOVLW   F2
     MOVWF   FREQ
     CALL    DELAY
