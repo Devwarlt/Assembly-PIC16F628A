@@ -2,8 +2,11 @@
 
 SALVAW EQU 20H
 SALVAS EQU 21H
-
-   ORG 000H
+FREQ EQU 22H
+DL0 EQU 23H
+DL1 EQU 24H
+DL2 EQU 25H   
+    ORG 000H
    GOTO INICIO
      ORG 004H 
      
@@ -114,6 +117,24 @@ P:  BSF INTCON,GIE
     GOTO N
 
 
+DELAY:MOVLW   .2
+      MOVWF   DL2
 
-       
-         
+LOOP_250MS:
+    MOVLW   .250
+    MOVWF   DL1
+
+LOOP_1MS:
+    MOVLW   .200
+    MOVWF   DL0
+LOOP:
+     NOP
+     DECFSZ  DL0,F
+     GOTO    LOOP
+    DECFSZ  DL1,F
+    GOTO    LOOP_1MS
+    DECFSZ  DL2,F
+     GOTO    LOOP_250MS
+
+    RETURN
+   
