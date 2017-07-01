@@ -1,5 +1,16 @@
 #INCLUDE <P16F628A.INC>
 
+SIRENE:
+    BSF     INTCON,T0IE
+    MOVLW   F1
+    MOVWF   FREQ
+    CALL    DELAY
+    MOVLW   F2
+    MOVWF   FREQ
+    CALL    DELAY
+    GOTO    SIRENE
+    END
+
 DELAY:
     MOVLW   .2
     MOVWF   DL2
