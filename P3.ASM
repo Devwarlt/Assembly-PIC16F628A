@@ -1,5 +1,6 @@
-#include P16F628A.INC
-
+  #include P16F628A.INC
+                                           ;RB7=AUTO-FALANTE,RB5 E RB6=LED,RB4=RELÉ,RB3=Lâmpada,RB2= interruptor 2
+					   ;RB1=INTERRUPTOR 1 ,RB0=INTERRUPTOR 3
 SALVAW	EQU	20H
 SALVAS	EQU	21H
 FREQ	EQU	22H
