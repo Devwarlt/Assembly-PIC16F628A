@@ -22,7 +22,7 @@ INTTMR:
       	MOVWF	TMR0
       	MOVLW	B'10000000'
       	XORWF	PORTB
-      	BCF		INTCON,T0IE
+      
       	MOVF	SALVAW,W
       	SWAPF	SALVAS,W
       	MOVWF	STATUS
@@ -70,6 +70,7 @@ INTEXT:
       	BCF 	INTCON,INTF
       	GOTO 	REC
 REC:
+		BCF		INTCON,T0IE
       	SWAPF 	SALVAS,W
       	MOVWF 	STATUS
       	MOVF 	SALVAW,W
