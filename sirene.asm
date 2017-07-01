@@ -3,6 +3,12 @@
 F1      EQU     .99
 F2      EQU     .199
 
+    ORG     000H
+    BCF     INTCON,T0IE
+    GOTO INICIO
+    
+    ORG     004H
+
 ;--INTERRUPÇÃO 
 ;SOM:
 ;    MOVLW   FREQ
