@@ -1,4 +1,4 @@
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  10:45:47         PAGE  1
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  11:05:30         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -57,7 +57,7 @@ Warning[207]: Found label after column 1. (SAVE_S)
 0012   0009           00040         RETFIE
                       00041 
 0013                  00042 DELAY:
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  10:45:47         PAGE  2
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  11:05:30         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
@@ -100,30 +100,32 @@ Message[302]: Register in operand not in bank 0.  Ensure that bank bits are corr
 002D   3007           00074         MOVLW   B'00000111'
 002E   009F           00075         MOVWF   CMCON
 002F                  00076 BGNNG:
-002F   1885           00077         BTFSC   CHAVE2
-0030   282F           00078         GOTO    BGNNG
-0031   150B           00079         BSF             INTCON,T0IF
-0032   1586           00080         BSF             SIRENE
-0033                  00081 MAIN:
-0033   1486           00082         BSF             LED1
-0034   1106           00083         BCF             LED2
-0035   3063           00084         MOVLW   .99
-0036   00A0           00085         MOVWF   FREQ
-0037   2013           00086         CALL    DELAY
-0038   1086           00087         BCF             LED1
-0039   1506           00088         BSF             LED2
-003A   30C7           00089         MOVLW   .199
-003B   00A0           00090         MOVWF   FREQ
-003C   2013           00091         CALL    DELAY
-003D   2833           00092         GOTO            MAIN
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  10:45:47         PAGE  3
+002F   1486           00077         BSF             LED1
+0030   1506           00078         BSF             LED2
+0031   1885           00079         BTFSC   CHAVE2
+0032   282F           00080         GOTO    BGNNG
+0033   150B           00081         BSF             INTCON,T0IF
+0034   1586           00082         BSF             SIRENE
+0035                  00083 MAIN:
+0035   1486           00084         BSF             LED1
+0036   1106           00085         BCF             LED2
+0037   3063           00086         MOVLW   .99
+0038   00A0           00087         MOVWF   FREQ
+0039   2013           00088         CALL    DELAY
+003A   1086           00089         BCF             LED1
+003B   1506           00090         BSF             LED2
+003C   30C7           00091         MOVLW   .199
+003D   00A0           00092         MOVWF   FREQ
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  11:05:30         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00093         END
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  10:45:47         PAGE  4
+003E   2013           00093         CALL    DELAY
+003F   2835           00094         GOTO            MAIN
+                      00095         END
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  11:05:30         PAGE  4
 
 
 SYMBOL TABLE
@@ -182,7 +184,7 @@ GIE                               00000007
 INDF                              00000000
 INICIO                            00000021
 INTCON                            0000000B
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  10:45:47         PAGE  5
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  11:05:30         PAGE  5
 
 
 SYMBOL TABLE
@@ -197,7 +199,7 @@ LED2                              PORTB,2
 LOOP                              00000019
 LOOP_1MS                          00000017
 LOOP_250MS                        00000015
-MAIN                              00000033
+MAIN                              00000035
 NOT_BO                            00000000
 NOT_BOD                           00000000
 NOT_BOR                           00000000
@@ -241,7 +243,7 @@ SPEN                              00000007
 SREN                              00000005
 STATUS                            00000003
 SYNC                              00000004
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  10:45:47         PAGE  6
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  11:05:30         PAGE  6
 
 
 SYMBOL TABLE
@@ -300,7 +302,7 @@ _BODEN_OFF                        00003FBF
 _BODEN_ON                         00003FFF
 _BOREN_OFF                        00003FBF
 _BOREN_ON                         00003FFF
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  10:45:47         PAGE  7
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  11:05:30         PAGE  7
 
 
 SYMBOL TABLE
@@ -335,13 +337,13 @@ __16F628A                         00000001
 
 MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
 
-0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXX--
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
 2000 : -------X-------- ---------------- ---------------- ----------------
 
 All other memory blocks unused.
 
-Program Memory Words Used:    59
-Program Memory Words Free:  1989
+Program Memory Words Used:    61
+Program Memory Words Free:  1987
 
 
 Errors   :     0

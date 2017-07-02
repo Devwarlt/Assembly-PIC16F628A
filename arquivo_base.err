@@ -1,10 +1,10 @@
-Warning[205] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 3 : Found directive in column 1. (__CONFIG)
-Warning[207] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 14 : Found label after column 1. (FREQ)
-Warning[207] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 15 : Found label after column 1. (DL0)
-Warning[207] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 16 : Found label after column 1. (DL1)
-Warning[207] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 17 : Found label after column 1. (DL2)
-Warning[207] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 18 : Found label after column 1. (SAVE_W)
-Warning[207] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 19 : Found label after column 1. (SAVE_S)
-Message[302] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 66 : Register in operand not in bank 0.  Ensure that bank bits are correct.
-Message[302] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 68 : Register in operand not in bank 0.  Ensure that bank bits are correct.
-Message[302] C:\USERS\DEVWARLT\DESKTOP\P3 - HARDWARE\ARQUIVO_BASE.ASM 70 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[205] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 3 : Found directive in column 1. (__CONFIG)
+Warning[207] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 14 : Found label after column 1. (FREQ)
+Warning[207] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 15 : Found label after column 1. (DL0)
+Warning[207] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 16 : Found label after column 1. (DL1)
+Warning[207] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 17 : Found label after column 1. (DL2)
+Warning[207] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 18 : Found label after column 1. (SAVE_W)
+Warning[207] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 19 : Found label after column 1. (SAVE_S)
+Message[302] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 66 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 68 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\DEVWARLT\DOCUMENTS\GITHUB\ASSEMBLY-PIC16F628A\ARQUIVO_BASE.ASM 70 : Register in operand not in bank 0.  Ensure that bank bits are correct.
