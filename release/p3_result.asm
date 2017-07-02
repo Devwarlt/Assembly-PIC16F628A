@@ -145,7 +145,7 @@ MAIN:
 	MOVLW	.3
 	MOVWF	FREQ
 ; Se CHAVE3 for acionado o algoritmo redireciona
-; para a lavel SHTDWN
+; para a label SHTDWN
 	BTFSS	CHAVE3
 	GOTO		SHTDWN
 	CALL	DELAY
@@ -156,7 +156,7 @@ MAIN:
 	MOVLW	.43
 	MOVWF	FREQ
 ; Se CHAVE3 for acionado o algoritmo redireciona
-; para a lavel SHTDWN
+; para a label SHTDWN
 	BTFSS	CHAVE3
 	GOTO		SHTDWN
 	CALL	DELAY
