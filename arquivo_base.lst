@@ -1,132 +1,161 @@
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  12:12:27         PAGE  1
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  14:02:26         PAGE  1
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-                      00001 #INCLUDE P16F628A.INC
+                      00001 ; ------------------------------------------
+                      00002 ; IESB - Sistemas Computacionais: Hardware
+                      00003 ; (Prova Substitutiva) Projeto Sirene
+                      00004 ; Orientador / Avaliador:
+                      00005 ;       Luis Carvalho
+                      00006 ; Alunos:
+                      00007 ;       Leonardo Contri /       Matricula: 1712082029
+                      00008 ;       Nadio Dib               /       Matricula: 1322081004
+                      00009 ;
+                      00010 ;       Brasilia, 2 de julho de 2017
+                      00011 ; ------------------------------------------
+                      00012 
+                      00013 #INCLUDE P16F628A.INC
                       00001         LIST
                       00002 ; P16F628A.INC  Standard Header File, Version 1.10    Microchip Technology, Inc.
                       00265         LIST
                       00266 
-                      00002 
+                      00014 
 Warning[205]: Found directive in column 1. (__CONFIG)
-2007   3F61           00003 __CONFIG _BOREN_ON & _CP_OFF & _PWRTE_ON & _WDT_OFF & _LVP_OFF & _MCLRE_ON & _XT_OSC
-                      00004 
-                      00005 #DEFINE         BANK0   BCF     STATUS,RP0
-                      00006 #DEFINE         BANK1   BSF     STATUS,RP0
-                      00007 #DEFINE         CHAVE1  PORTA,0
-                      00008 #DEFINE         CHAVE2  PORTA,1
-                      00009 #DEFINE         CHAVE3  PORTA,2
-                      00010 #DEFINE         LED1            PORTB,1
-                      00011 #DEFINE         LED2    PORTB,2
-                      00012 #DEFINE         SIRENE  PORTB,3
-                      00013 
+2007   3F61           00015 __CONFIG _BOREN_ON & _CP_OFF & _PWRTE_ON & _WDT_OFF & _LVP_OFF & _MCLRE_ON & _XT_OSC
+                      00016 
+                      00017 #DEFINE         BANK0   BCF     STATUS,RP0
+                      00018 #DEFINE         BANK1   BSF     STATUS,RP0
+                      00019 #DEFINE         CHAVE1  PORTA,0
+                      00020 #DEFINE         CHAVE2  PORTA,1
+                      00021 #DEFINE         CHAVE3  PORTA,2
+                      00022 #DEFINE         L1_OFF  BSF     PORTB,1
+                      00023 #DEFINE         L1_ON   BCF     PORTB,1
+                      00024 #DEFINE         L2_OFF  BSF     PORTB,2
+                      00025 #DEFINE         L2_ON   BCF     PORTB,2
+                      00026 #DEFINE         SIRENE  PORTB,3
+                      00027 #DEFINE         TA_CFG  B'00000111'
+                      00028 #DEFINE         TB_CFG  B'00000000'
+                      00029 #DEFINE         OR_CFG  B'10000001'
+                      00030 #DEFINE         IC_CFG  B'00100000'
+                      00031 
 Warning[207]: Found label after column 1. (FREQ)
-  00000020            00014         FREQ    EQU             20H
+  00000020            00032         FREQ    EQU             20H
 Warning[207]: Found label after column 1. (DL0)
-  00000021            00015         DL0             EQU             21H
+  00000021            00033         DL0             EQU             21H
 Warning[207]: Found label after column 1. (DL1)
-  00000022            00016         DL1             EQU             22H
+  00000022            00034         DL1             EQU             22H
 Warning[207]: Found label after column 1. (DL2)
-  00000023            00017         DL2             EQU             23H
+  00000023            00035         DL2             EQU             23H
 Warning[207]: Found label after column 1. (SAVE_W)
-  00000024            00018         SAVE_W  EQU             24H
+  00000024            00036         SAVE_W  EQU             24H
 Warning[207]: Found label after column 1. (SAVE_S)
-  00000025            00019         SAVE_S  EQU             25H
-                      00020 
-0000                  00021         ORG             000H
-0000   2821           00022         GOTO            INICIO
-                      00023 
-0004                  00024         ORG             004H
-0004   00A4           00025         MOVWF   SAVE_W
-0005   0E03           00026         SWAPF   STATUS,W
-0006   00A5           00027         MOVWF   SAVE_S
-0007   1E8B           00028         BTFSS   INTCON,T0IE
-0008   280E           00029         GOTO            END_INT
-0009   128B           00030         BCF             INTCON,T0IE
-000A   3020           00031         MOVLW   FREQ
-000B   0081           00032         MOVWF   TMR0
-000C   3008           00033         MOVLW   B'00001000'
-000D   0686           00034         XORWF   PORTB,F
-000E                  00035 END_INT:
-000E   0E25           00036         SWAPF   SAVE_S,W
-000F   0083           00037         MOVWF   STATUS
-0010   0EA4           00038         SWAPF   SAVE_W,F
-0011   0E24           00039         SWAPF   SAVE_W,W
-0012   0009           00040         RETFIE
+  00000025            00037         SAVE_S  EQU             25H
+                      00038 
+0000                  00039         ORG             000H
+0000   281A           00040         GOTO            INICIO
                       00041 
-0013                  00042 DELAY:
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  12:12:27         PAGE  2
+0004                  00042         ORG             004H
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  14:02:26         PAGE  2
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-0013   3002           00043         MOVLW   .2
-0014   00A3           00044         MOVWF   DL2
-0015                  00045 LOOP_250MS:
-0015   30FA           00046         MOVLW   .250
-0016   00A2           00047         MOVWF   DL1
-0017                  00048 LOOP_1MS:
-0017   30C8           00049         MOVLW   .200
-0018   00A1           00050         MOVWF   DL0
-0019                  00051 LOOP:
-0019   0000           00052         NOP
-001A   0BA1           00053         DECFSZ  DL0,F
-001B   2819           00054         GOTO            LOOP
-001C   0BA2           00055         DECFSZ  DL1,F
-001D   2817           00056         GOTO            LOOP_1MS
-001E   0BA3           00057         DECFSZ  DL2,F
-001F   2815           00058         GOTO            LOOP_250MS
-0020   0008           00059         RETURN
-                      00060 
-0021                  00061 INICIO:
-0021   0185           00062         CLRF    PORTA
-0022   0186           00063         CLRF    PORTB
-0023   1683           00064         BANK1
-0024   3007           00065         MOVLW   B'00000111'
+0004   00A4           00043         MOVWF   SAVE_W
+0005   0E03           00044         SWAPF   STATUS,W
+0006   00A5           00045         MOVWF   SAVE_S
+                      00046 ;       BTFSC   CHAVE3
+                      00047 ;       GOTO            END_INT
+                      00048 ;       L1_OFF
+                      00049 ;       L2_OFF
+                      00050 ;       BTFSS   INTCON,T0IE
+                      00051 ;       GOTO            END_INT
+                      00052 ;       BCF             INTCON,T0IE
+                      00053 ;       MOVLW   FREQ
+                      00054 ;       MOVWF   TMR0
+                      00055 ;       MOVLW   B'00001000'
+                      00056 ;       XORWF   PORTB,F
+0007                  00057 END_INT:
+0007   0E25           00058         SWAPF   SAVE_S,W
+0008   0083           00059         MOVWF   STATUS
+0009   0EA4           00060         SWAPF   SAVE_W,F
+000A   0E24           00061         SWAPF   SAVE_W,W
+000B   0009           00062         RETFIE
+                      00063 
+000C                  00064 DELAY:
+000C   3002           00065         MOVLW   .2
+000D   00A3           00066         MOVWF   DL2
+000E                  00067 LOOP_250MS:
+000E   30FA           00068         MOVLW   .250
+000F   00A2           00069         MOVWF   DL1
+0010                  00070 LOOP_1MS:
+0010   30C8           00071         MOVLW   .200
+0011   00A1           00072         MOVWF   DL0
+0012                  00073 LOOP:
+0012   0000           00074         NOP
+0013   0BA1           00075         DECFSZ  DL0,F
+0014   2812           00076         GOTO            LOOP
+0015   0BA2           00077         DECFSZ  DL1,F
+0016   2810           00078         GOTO            LOOP_1MS
+0017   0BA3           00079         DECFSZ  DL2,F
+0018   280E           00080         GOTO            LOOP_250MS
+0019   0008           00081         RETURN
+                      00082 
+001A                  00083 INICIO:
+001A   0185           00084         CLRF    PORTA
+001B   0186           00085         CLRF    PORTB
+001C   1683           00086         BANK1
+001D   3007           00087         MOVLW   TA_CFG
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0025   0085           00066         MOVWF   TRISA
-0026   3000           00067         MOVLW   B'00000000'
+001E   0085           00088         MOVWF   TRISA
+001F   3000           00089         MOVLW   TB_CFG
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0027   0086           00068         MOVWF   TRISB
-0028   3080           00069         MOVLW   B'10000000'
+0020   0086           00090         MOVWF   TRISB
+0021   3081           00091         MOVLW   OR_CFG
 Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
-0029   0081           00070         MOVWF   OPTION_REG
-002A   3020           00071         MOVLW   B'00100000'
-002B   008B           00072         MOVWF   INTCON
-002C   1283           00073         BANK0
-002D   3087           00074         MOVLW   B'10000111'
-002E   009F           00075         MOVWF   CMCON
-002F                  00076 BGNNG:
-002F   1486           00077         BSF             LED1
-0030   1506           00078         BSF             LED2
-0031   1885           00079         BTFSC   CHAVE2
-0032   282F           00080         GOTO    BGNNG
-0033   1186           00081         BCF             SIRENE
-0034   168B           00082         BSF             INTCON,T0IE
-0035   1586           00083         BSF             SIRENE
-0036                  00084 MAIN:
-0036   1486           00085         BSF             LED1
-0037   1106           00086         BCF             LED2
-0038   3003           00087         MOVLW   .3
-0039   00A0           00088         MOVWF   FREQ
-003A   2013           00089         CALL    DELAY
-003B   1086           00090         BCF             LED1
-003C   1506           00091         BSF             LED2
-003D   302B           00092         MOVLW   .43
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  12:12:27         PAGE  3
+0022   0081           00092         MOVWF   OPTION_REG
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  14:02:26         PAGE  3
 
 
 LOC  OBJECT CODE     LINE SOURCE TEXT
   VALUE
 
-003E   00A0           00093         MOVWF   FREQ
-003F   2013           00094         CALL    DELAY
-0040   2836           00095         GOTO            MAIN
-                      00096         END
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  12:12:27         PAGE  4
+0023   3020           00093         MOVLW   IC_CFG
+0024   008B           00094         MOVWF   INTCON
+0025   1283           00095         BANK0
+0026   3007           00096         MOVLW   7
+0027   009F           00097         MOVWF   CMCON
+0028                  00098 BGNNG:
+0028   1486           00099         L1_OFF
+0029   1506           00100         L2_OFF
+002A   1885           00101         BTFSC   CHAVE2
+002B   2828           00102         GOTO    BGNNG
+002C   168B           00103         BSF             INTCON,T0IE
+002D   1586           00104         BSF             SIRENE
+002E                  00105 MAIN:
+002E   1486           00106         L1_OFF
+002F   1106           00107         L2_ON
+0030   3003           00108         MOVLW   .3
+0031   00A0           00109         MOVWF   FREQ
+0032   1D05           00110         BTFSS   CHAVE3
+0033   283D           00111         GOTO            SHTDWN
+0034   200C           00112         CALL    DELAY
+0035   1086           00113         L1_ON
+0036   1506           00114         L2_OFF
+0037   302B           00115         MOVLW   .43
+0038   00A0           00116         MOVWF   FREQ
+0039   1D05           00117         BTFSS   CHAVE3
+003A   283D           00118         GOTO            SHTDWN
+003B   200C           00119         CALL    DELAY
+003C   282E           00120         GOTO            MAIN
+003D                  00121 SHTDWN:
+003D   1486           00122         L1_OFF
+003E   1506           00123         L2_OFF
+003F   2828           00124         GOTO            BGNNG
+                      00125         END
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  14:02:26         PAGE  4
 
 
 SYMBOL TABLE
@@ -135,7 +164,7 @@ SYMBOL TABLE
 ADEN                              00000003
 BANK0                             BCF     STATUS,RP0
 BANK1                             BSF     STATUS,RP0
-BGNNG                             0000002F
+BGNNG                             00000028
 BRGH                              00000002
 C                                 00000000
 C1INV                             00000004
@@ -166,7 +195,7 @@ CMIF                              00000006
 CREN                              00000004
 CSRC                              00000007
 DC                                00000001
-DELAY                             00000013
+DELAY                             0000000C
 DL0                               00000021
 DL1                               00000022
 DL2                               00000023
@@ -176,31 +205,34 @@ EECON2                            0000009D
 EEDATA                            0000009A
 EEIE                              00000007
 EEIF                              00000007
-END_INT                           0000000E
+END_INT                           00000007
 F                                 00000001
 FERR                              00000002
 FREQ                              00000020
 FSR                               00000004
 GIE                               00000007
+IC_CFG                            B'00100000'
 INDF                              00000000
-INICIO                            00000021
-INTCON                            0000000B
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  12:12:27         PAGE  5
+INICIO                            0000001A
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  14:02:26         PAGE  5
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+INTCON                            0000000B
 INTE                              00000004
 INTEDG                            00000006
 INTF                              00000001
 IRP                               00000007
-LED1                              PORTB,1
-LED2                              PORTB,2
-LOOP                              00000019
-LOOP_1MS                          00000017
-LOOP_250MS                        00000015
-MAIN                              00000036
+L1_OFF                            BSF     PORTB,1
+L1_ON                             BCF     PORTB,1
+L2_OFF                            BSF     PORTB,2
+L2_ON                             BCF     PORTB,2
+LOOP                              00000012
+LOOP_1MS                          00000010
+LOOP_250MS                        0000000E
+MAIN                              0000002E
 NOT_BO                            00000000
 NOT_BOD                           00000000
 NOT_BOR                           00000000
@@ -211,6 +243,7 @@ NOT_T1SYNC                        00000002
 NOT_TO                            00000004
 OERR                              00000001
 OPTION_REG                        00000081
+OR_CFG                            B'10000001'
 OSCF                              00000003
 PCL                               00000002
 PCLATH                            0000000A
@@ -238,18 +271,19 @@ RX9                               00000006
 RX9D                              00000000
 SAVE_S                            00000025
 SAVE_W                            00000024
+SHTDWN                            0000003D
 SIRENE                            PORTB,3
-SPBRG                             00000099
-SPEN                              00000007
-SREN                              00000005
-STATUS                            00000003
-SYNC                              00000004
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  12:12:27         PAGE  6
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  14:02:26         PAGE  6
 
 
 SYMBOL TABLE
   LABEL                             VALUE 
 
+SPBRG                             00000099
+SPEN                              00000007
+SREN                              00000005
+STATUS                            00000003
+SYNC                              00000004
 T0CS                              00000005
 T0IE                              00000005
 T0IF                              00000002
@@ -261,6 +295,8 @@ T1OSCEN                           00000003
 T2CKPS0                           00000000
 T2CKPS1                           00000001
 T2CON                             00000012
+TA_CFG                            B'00000111'
+TB_CFG                            B'00000000'
 TMR0                              00000001
 TMR1CS                            00000001
 TMR1H                             0000000F
@@ -296,6 +332,12 @@ VROE                              00000006
 VRR                               00000005
 W                                 00000000
 WR                                00000001
+MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  14:02:26         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
 WREN                              00000002
 WRERR                             00000003
 Z                                 00000002
@@ -303,12 +345,6 @@ _BODEN_OFF                        00003FBF
 _BODEN_ON                         00003FFF
 _BOREN_OFF                        00003FBF
 _BOREN_ON                         00003FFF
-MPASM  5.37                  ARQUIVO_BASE.ASM   7-2-2017  12:12:27         PAGE  7
-
-
-SYMBOL TABLE
-  LABEL                             VALUE 
-
 _CP_OFF                           00003FFF
 _CP_ON                            00001FFF
 _DATA_CP_OFF                      00003FFF
@@ -339,13 +375,12 @@ __16F628A                         00000001
 MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
 
 0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
-0040 : X--------------- ---------------- ---------------- ----------------
 2000 : -------X-------- ---------------- ---------------- ----------------
 
 All other memory blocks unused.
 
-Program Memory Words Used:    62
-Program Memory Words Free:  1986
+Program Memory Words Used:    61
+Program Memory Words Free:  1987
 
 
 Errors   :     0
