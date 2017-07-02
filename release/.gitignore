@@ -2,3 +2,5 @@
 *.err
 *.HEX
 *.O
+*.lst
+*.map
