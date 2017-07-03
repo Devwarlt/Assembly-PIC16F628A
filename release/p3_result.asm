@@ -6,7 +6,7 @@
 ; 	Luis Carvalho
 ; Alunos:
 ;	Leonardo Contri	/	Matricula: 1712082029
-;	Nadio Dib		/	Matricula: 1322081004
+;	Nadio Dib	/	Matricula: 1322081004
 ;
 ;	Brasilia, 2 de julho de 2017
 ; ------------------------------------------
@@ -41,40 +41,40 @@
 #DEFINE		IC_CFG	B'10010000'
 
 FREQ	EQU		20H
-DL0		EQU		21H
-DL1		EQU		22H
-DL2		EQU		23H
+DL0	EQU		21H
+DL1	EQU		22H
+DL2	EQU		23H
 SAVE_W	EQU		24H
 SAVE_S	EQU		25H
 FLAGS	EQU		26H
 
 ; ------------------------------------------
 
-	ORG		000H
+	ORG	000H
 	GOTO	INICIO
 
 ; ------------------------------------------
 ; Tratamento de interrupcoes
 ; ------------------------------------------
-	ORG		004H
+	ORG	004H
 	MOVWF	SAVE_W
 	SWAPF	STATUS,W
 	MOVWF	SAVE_S
 
 	BTFSS	INTCON,INTF		; Testa se foi interrupção externa
 	GOTO	INT_TMR
-	BCF		INTCON,INTF		; Zera flag da interrupção externa
+	BCF	INTCON,INTF		; Zera flag da interrupção externa
 	L1_OFF					; Apaga leds
 	L2_OFF
-	BCF		INTCON,T0IE		; Desabilita a interrupção do Timer 0
-	BCF		LAMP			; Apaga lâmpada
-	BCF		RELE			; Desliga relé
-	BSF		FLAGS,0			; Indica ao programa principal que aconteceu uma interrupção externa
+	BCF	INTCON,T0IE		; Desabilita a interrupção do Timer 0
+	BCF	LAMP			; Apaga lâmpada
+	BCF	RELE			; Desliga relé
+	BSF	FLAGS,0			; Indica ao programa principal que aconteceu uma interrupção externa
 
 INT_TMR:
 	MOVFW	FREQ
 	MOVWF	TMR0			; Recarrega TMR0 com o valor apropriado pra F1 ou F2
-	BCF		INTCON,T0IF
+	BCF	INTCON,T0IF
 
 	MOVLW	B'00001000'
 	XORWF	PORTB,F			; inverte bit do alto-falante
@@ -144,11 +144,11 @@ LE_CH1:
 	BTFSC	CHAVE1
 	GOTO	LE_CH2
 
-	BCF		FLAGS,0
+	BCF	FLAGS,0
 	BTFSS	RELE		; Testa se carro ligado
 	GOTO	LE_CH2
 
-	BSF		INTCON,T0IE
+	BSF	INTCON,T0IE
 
 ; Procedimento de inversao dos leds L1 e L2
 PISCA:
@@ -179,9 +179,9 @@ LE_CH2:
 	BTFSC	CHAVE2
 	GOTO	LE_CH1
 
-	BCF		FLAGS,0
-	BSF		LAMP
-	BSF		RELE
+	BCF	FLAGS,0
+	BSF	LAMP
+	BSF	RELE
 
 	GOTO	LE_CH1
 
