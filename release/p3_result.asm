@@ -16,7 +16,7 @@
 ; ------------------------------------------
 ; Parametros de configuracao do PIC16F628A
 ; ------------------------------------------
-__CONFIG _BOREN_ON & _CP_OFF & _PWRTE_ON & _WDT_OFF & _LVP_OFF & _MCLRE_ON & _XT_OSC
+	__CONFIG _BOREN_ON & _CP_OFF & _PWRTE_ON & _WDT_OFF & _LVP_OFF & _MCLRE_ON & _XT_OSC
 ; ------------------------------------------
 
 ; ------------------------------------------
@@ -27,27 +27,31 @@ __CONFIG _BOREN_ON & _CP_OFF & _PWRTE_ON & _WDT_OFF & _LVP_OFF & _MCLRE_ON & _XT
 #DEFINE		BANK1	BSF	STATUS,RP0
 #DEFINE		CHAVE1	PORTA,0
 #DEFINE		CHAVE2	PORTA,1
-#DEFINE		CHAVE3	PORTA,2
+#DEFINE		CHAVE3	PORTB,0
 #DEFINE		L1_OFF	BSF	PORTB,1
 #DEFINE		L1_ON	BCF	PORTB,1
 #DEFINE		L2_OFF	BSF	PORTB,2
 #DEFINE		L2_ON	BCF	PORTB,2
 #DEFINE		SIRENE	PORTB,3
-#DEFINE		TA_CFG	B'00000111'
-#DEFINE		TB_CFG	B'00000000'
+#DEFINE		RELE	PORTB,4
+#DEFINE		LAMP	PORTB,5
+#DEFINE		TA_CFG	B'11111111'
+#DEFINE		TB_CFG	B'11000001'
 #DEFINE		OR_CFG	B'10000001'
-#DEFINE		IC_CFG	B'00100000'
+#DEFINE		IC_CFG	B'10010000'
 
-	FREQ	EQU		20H
-	DL0		EQU		21H
-	DL1		EQU		22H
-	DL2		EQU		23H
-	SAVE_W	EQU		24H
-	SAVE_S	EQU		25H
+FREQ	EQU		20H
+DL0		EQU		21H
+DL1		EQU		22H
+DL2		EQU		23H
+SAVE_W	EQU		24H
+SAVE_S	EQU		25H
+FLAGS	EQU		26H
+
 ; ------------------------------------------
 
 	ORG		000H
-	GOTO		INICIO
+	GOTO	INICIO
 
 ; ------------------------------------------
 ; Tratamento de interrupcoes
@@ -56,19 +60,25 @@ __CONFIG _BOREN_ON & _CP_OFF & _PWRTE_ON & _WDT_OFF & _LVP_OFF & _MCLRE_ON & _XT
 	MOVWF	SAVE_W
 	SWAPF	STATUS,W
 	MOVWF	SAVE_S
-; Acionamento da CHAVE3 por interrupcao
-; externa
-;	BTFSC	CHAVE3
-;	GOTO		END_INT
-;	L1_OFF
-;	L2_OFF
-;	BTFSS	INTCON,T0IE
-;	GOTO		END_INT
-;	BCF		INTCON,T0IE
-;	MOVLW	FREQ
-;	MOVWF	TMR0
-;	MOVLW	B'00001000'
-;	XORWF	PORTB,F
+
+	BTFSS	INTCON,INTF		; Testa se foi interrupção externa
+	GOTO	INT_TMR
+	BCF		INTCON,INTF		; Zera flag da interrupção externa
+	L1_OFF					; Apaga leds
+	L2_OFF
+	BCF		INTCON,T0IE		; Desabilita a interrupção do Timer 0
+	BCF		LAMP			; Apaga lâmpada
+	BCF		RELE			; Desliga relé
+	BSF		FLAGS,0			; Indica ao programa principal que aconteceu uma interrupção externa
+
+INT_TMR:
+	MOVFW	FREQ
+	MOVWF	TMR0			; Recarrega TMR0 com o valor apropriado pra F1 ou F2
+	BCF		INTCON,T0IF
+
+	MOVLW	B'00001000'
+	XORWF	PORTB,F			; inverte bit do alto-falante
+
 END_INT:
 	SWAPF	SAVE_S,W
 	MOVWF	STATUS
@@ -87,16 +97,16 @@ LOOP_250MS:
 	MOVLW	.250
 	MOVWF	DL1
 LOOP_1MS:
-	MOVLW	.200
+	MOVLW	.250
 	MOVWF	DL0
 LOOP:
 	NOP
 	DECFSZ	DL0,F
-	GOTO		LOOP
+	GOTO	LOOP
 	DECFSZ	DL1,F
-	GOTO		LOOP_1MS
+	GOTO	LOOP_1MS
 	DECFSZ	DL2,F
-	GOTO		LOOP_250MS
+	GOTO	LOOP_250MS
 	RETURN
 ; ------------------------------------------
 
@@ -104,10 +114,6 @@ LOOP:
 ; Inicio do algoritmo
 ; ------------------------------------------
 INICIO:
-; Limpa os valores possivelmente setados de
-; PORTA e PORTB para uma inicializacao correta
-	CLRF	PORTA
-	CLRF	PORTB
 ; Mudanca para o banco 1 da RAM para
 ; configuracao de TRISA, TRISB, OPTION_REG,
 ; INTCON e CMCON
@@ -124,53 +130,61 @@ INICIO:
 ; Desabilitacao dos comparadores
 	MOVLW	7
 	MOVWF	CMCON
-BGNNG:
-; Condicao inicial de desligamento dos leds L1
-; e L2
+; Limpa os valores possivelmente setados de
+; PORTA e PORTB para uma inicializacao correta
+VOLTA:
+	CLRF	FLAGS
+	CLRF	PORTB
 	L1_OFF
 	L2_OFF
 ; Se CHAVE2 for acionado o procedimento de
 ; variacao dos leds ficara ativado, possibilitando
 ; assim sua inversao
-	BTFSC	CHAVE2
-	GOTO 	BGNNG
+LE_CH1:
+	BTFSC	CHAVE1
+	GOTO	LE_CH2
+
+	BCF		FLAGS,0
+	BTFSS	RELE		; Testa se carro ligado
+	GOTO	LE_CH2
+
 	BSF		INTCON,T0IE
-	BSF		SIRENE
+
 ; Procedimento de inversao dos leds L1 e L2
-MAIN:
-	L1_OFF
-	L2_ON
-; 3 representa o valor repassado ao TMR0 vindo
-; de FREQ da frequencia de 494Hz de T/2=1012ms
-	MOVLW	.3
-	MOVWF	FREQ
-; Se CHAVE3 for acionado o algoritmo redireciona
-; para a label SHTDWN
-	BTFSS	CHAVE3
-	GOTO		SHTDWN
-	CALL	DELAY
+PISCA:
 	L1_ON
 	L2_OFF
+; 3 representa o valor repassado ao TMR0 vindo
+; de FREQ da frequencia de 494Hz de T/2=1012ms
+; Se CHAVE3 for acionado o algoritmo redireciona
+; para a label SHTDWN
+	MOVLW	.3
+	MOVWF	FREQ
+	CALL	DELAY		; Espera 0,5 seg
+	BTFSC	FLAGS,0
+	GOTO	VOLTA
+
+	L1_OFF
+	L2_ON
 ; 43 representa o valor repassado ao TMR0 vindo
 ; de FREQ da frequencia de 587Hz de T/2=852ms
 	MOVLW	.43
 	MOVWF	FREQ
-; Se CHAVE3 for acionado o algoritmo redireciona
-; para a label SHTDWN
-	BTFSS	CHAVE3
-	GOTO		SHTDWN
-	CALL	DELAY
-	GOTO		MAIN
-; Procedimento SHTDWN desabilita os leds L1 e L2
-; e retorna para a label BGNNG assim possibilitando
-; que esse procedimento possa ser realizado
-; inumeras vezes sempre que CHAVE2 for ativado e
-; posteriormente CHAVE3 para retornar as condicoes
-; iniciais do algoritmo na label BGNNG
-SHTDWN:
-	L1_OFF
-	L2_OFF
-	GOTO		BGNNG
+	CALL	DELAY		; Espera 0,5 seg
+	BTFSC	FLAGS,0
+	GOTO	VOLTA
+	GOTO	PISCA
+
+LE_CH2:
+	BTFSC	CHAVE2
+	GOTO	LE_CH1
+
+	BCF		FLAGS,0
+	BSF		LAMP
+	BSF		RELE
+
+	GOTO	LE_CH1
+
 	END
 ; ------------------------------------------
 
